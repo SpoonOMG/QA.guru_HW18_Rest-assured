@@ -1,3 +1,4 @@
+
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import model.AuthModel;
@@ -36,7 +37,16 @@ public class SimpleRestApiTests {
             AuthModel auth = new AuthModel();
             auth.setEmail("eve.holt@reqres.in");
             auth.setPassword("cityslicka");
-            Response response = given().baseUri(baseUri).contentType(ContentType.JSON).log().all().when().body(auth).post(loginEndpoint).then().log().all().statusCode(200).body("token", is("QpwL5tke4Pnpja7X4")).extract().response();
+            Response response = given()
+                    .baseUri(baseUri).contentType(ContentType.JSON)
+                    .log().all()
+                    .when()
+                    .body(auth)
+                    .post(loginEndpoint)
+                    .then().log().all()
+                    .statusCode(200)
+                    .body("token", is("QpwL5tke4Pnpja7X4"))
+                    .extract().response();
             String authToken = response.path("token");
             System.out.println("Используемый токен: " + authToken);
             return authToken;
@@ -49,7 +59,18 @@ public class SimpleRestApiTests {
             CreateUser user = new CreateUser();
             user.setName("morpheus");
             user.setJob("leader");
-            Response response = given().baseUri(baseUri).contentType(ContentType.JSON).log().all().when().body(user).post(createEndpoint).then().log().all().statusCode(201).body("name", is("morpheus")).body("job", is("leader")).extract().response();
+            Response response = given()
+                    .baseUri(baseUri)
+                    .contentType(ContentType.JSON)
+                    .log().all()
+                    .when()
+                    .body(user)
+                    .post(createEndpoint)
+                    .then().log().all()
+                    .statusCode(201)
+                    .body("name", is("morpheus"))
+                    .body("job", is("leader"))
+                    .extract().response();
             String userId = response.path("id");
             System.out.println("Id пользователя: " + userId);
         });
@@ -65,21 +86,44 @@ public class SimpleRestApiTests {
             Какой наиболее простой путь для подобных проверок?
          */
         step("Получаем список юзеров", () -> {
-            Response response = given().baseUri(baseUri).when().log().all().param("page", 2).get(listUsersEndpoint).then().log().all().body("page", is(2)).body("total", is(12)).body("support.text", is("To keep ReqRes free, contributions towards server costs are appreciated!")).extract().response();
+            Response response = given()
+                    .baseUri(baseUri)
+                    .when().log().all()
+                    .param("page", 2)
+                    .get(listUsersEndpoint)
+                    .then().log().all()
+                    .body("page", is(2))
+                    .body("total", is(12))
+                    .body("support.text", is("To keep ReqRes free, contributions towards server costs are appreciated!"))
+                    .extract().response();
         });
     }
 
     @Test
     void simpleListResourceTest() {
         step("Получаем список ресурсов", () -> {
-            Response response = given().baseUri(baseUri).when().log().all().param("page", 2).get(listResourceEndpoint).then().log().all().body("page", is(2)).body("total", is(12)).body("support.text", is("To keep ReqRes free, contributions towards server costs are appreciated!")).extract().response();
+            Response response = given()
+                    .baseUri(baseUri)
+                    .when().log().all()
+                    .param("page", 2)
+                    .get(listResourceEndpoint)
+                    .then().log().all()
+                    .body("page", is(2))
+                    .body("total", is(12))
+                    .body("support.text", is("To keep ReqRes free, contributions towards server costs are appreciated!"))
+                    .extract().response();
         });
     }
 
     @Test
     void simpleDeleteTest() {
         step("Удаляем юзера", () -> {
-            given().baseUri(baseUri).when().log().all().delete(deleteEndpoint).then().log().all().statusCode(204);
+            given()
+                    .baseUri(baseUri)
+                    .when().log().all()
+                    .delete(deleteEndpoint)
+                    .then().log().all()
+                    .statusCode(204);
 
         });
 
