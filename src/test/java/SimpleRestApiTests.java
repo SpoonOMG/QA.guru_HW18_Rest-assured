@@ -47,9 +47,8 @@ public class SimpleRestApiTests {
                     .statusCode(200)
                     .body("token", is("QpwL5tke4Pnpja7X4"))
                     .extract().response();
-            String authToken = response.path("token");
+            String authToken = response.path("token"); //здесь я подхватываю токен в переменную для переиспользования в других тестах
             System.out.println("Используемый токен: " + authToken);
-            return authToken;
         });
     }
 
